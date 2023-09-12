@@ -1,0 +1,6 @@
+AGF;SIF;0-3;Other data;
+BIF;VBK;3-0;Other data;
+FCK;AGF;0-2;Other data;
+HIF;BIF;1-1;Other data;
+LBK;FCK;0-0;Other data;
+FCM;HIF;1-0;Other data;

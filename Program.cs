@@ -6,12 +6,12 @@ class Program
 {
     static void Main(string[] args)
     {
-        string[] teams = { "AGF", "BIF", "FCK", "HIF", "LBK", "FCM", "FCN", "OBK", "RFC", "SIF", "VBK", "VFF" };
+        string teams = FileHandler.GetTeamAbbreviations("./CSV-files/SL/teams.csv");
+        string[] abbreviations = teams.Split(';');        
         for (int r = 0; r < 22; r++)
-        {
-            string round = RoundGenerator.GenerateRoundMatches(teams, r);
-            File.WriteAllText("./CSV-files/SL/round-" + (r + 1) + ".csv", round);
+        {           
+            string round = RoundGenerator.GenerateRoundMatches(abbreviations, r);
+            File.WriteAllText("./CSV-files/SL/rounds/round-" + (r + 1) + ".csv", round);
         }
-        Console.WriteLine(17 % 11);
     }
 }
