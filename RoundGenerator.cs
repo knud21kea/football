@@ -16,6 +16,14 @@ static class RoundGenerator
     {"AC","FI","BL","DK","GH","EJ"}
     };
 
+    static readonly string[,] fixtures32 = {
+    {"AD","BE","CF"},  
+    {"BD","AF","CE"},  
+    {"CD","EF","AB"},  
+    {"AE","BC","DF"},  
+    {"BF","DE","AC"}  
+    };
+
     public static string GenerateRoundMatches22(string[] teams, int round)
     {
         string csvForRound = "";
@@ -38,10 +46,11 @@ static class RoundGenerator
         string csvForRound = "";
         for (int m = 0; m < 3; m++)
         {        
-            string homeTeam = teams[scheduleCode.IndexOf(fixtures22[round,m].Substring(0,1))];
-            string awayTeam = teams[scheduleCode.IndexOf(fixtures22[round,m].Substring(1,2))];
+            string codes = fixtures32[round%5,m];
+            string homeTeam = teams[scheduleCode.IndexOf(codes.Substring(0,1))];
+            string awayTeam = teams[scheduleCode.IndexOf(codes.Substring(1,1))];
             string[] twoTeams = { homeTeam, awayTeam };
-            if (round % 2 == 1)
+            if (round > 4)
             {
                 Array.Reverse(twoTeams);
             }
@@ -85,9 +94,5 @@ static class RoundGenerator
         {
             return 5;
         }
-    }
-
-    public static int GetAbbrIndex(string index) {
-        return scheduleCode.IndexOf(index);
     }
 }

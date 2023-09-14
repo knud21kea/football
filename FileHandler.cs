@@ -2,7 +2,7 @@ static class FileHandler
 {
     public static string GetTeamAbbreviations(string filePath)
     {
-        string teamAbbreviations = "";
+        string teamAbbrs = "";
         try
         {
             using StreamReader reader = new(filePath);
@@ -13,15 +13,15 @@ static class FileHandler
                 if (values.Length > 0)
                 {
                     string firstElement = values[0];
-                    teamAbbreviations += firstElement + ";";
+                    teamAbbrs += firstElement + ";";
                 }
             }
-            return teamAbbreviations;
+            return teamAbbrs;
         }        
         catch (IOException e)
         {
             Console.WriteLine("An error occurred while reading the file: " + e.Message);
         }
-        return teamAbbreviations;
+        return teamAbbrs;
     }
 }
