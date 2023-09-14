@@ -1,4 +1,4 @@
-class League
+public class League
 {
     public string Name { get; set; }
     public int ChampionsLeague { get; set; }

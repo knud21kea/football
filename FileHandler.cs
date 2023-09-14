@@ -25,7 +25,7 @@ static class FileHandler
         return teamAbbrs;
     }    
 
-    public static string[] GetAllSetupFiles()
+    /* public static string[] GetAllSetupFiles()
     {
         string rootFolder = @"./CSV-files";
         string[] setups = new string[4]; // application shouldn't have to cope with more than 4 leagues
@@ -40,6 +40,12 @@ static class FileHandler
             foreach (string subfolder in subfolders)
             {
                 string setupData = GetSetupData(subfolder);
+                List<string> teamData = GetTeamData(subfolder);
+                foreach (string team in teamData)
+                {
+                    Console.WriteLine(team);
+                }
+                
                 setups[index] = setupData;
                 index++;
             }
@@ -50,7 +56,7 @@ static class FileHandler
         }
         return setups;
     }
-    
+
     public static string GetSetupData(string subfolder)
     {
         string setupData = "";
@@ -69,4 +75,23 @@ static class FileHandler
         }
         return setupData;
     }
+    
+    public static List<string> GetTeamData(string subfolder)
+    {
+        List<string> teamData = new();
+        try
+        {
+            using StreamReader reader = new(subfolder + "/teams.csv");
+            string? line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                teamData.Add(line);
+            }
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("An error occurred while reading the setup file: " + e.Message);
+        }
+        return teamData;
+    } */
 }

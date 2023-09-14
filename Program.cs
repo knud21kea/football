@@ -9,13 +9,15 @@ class Program
         //RoundGenerator.UpdateData();
 
         Dbu DBU = new();
-        string[] setups = FileHandler.GetAllSetupFiles();
-        foreach (string setup in setups)
+        Setup.LoadData(DBU);
+        foreach (League league in DBU.Leagues)
         {
-            if (!string.IsNullOrEmpty(setup))
+            Console.WriteLine("** " + league.Name + " **");
+            foreach (Team team in league.Teams)
             {
-                DBU.AddLeague(setup);
+                Console.WriteLine(team.Name);
             }
+            
         }
     }
 }
