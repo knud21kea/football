@@ -7,6 +7,7 @@ public class League
     public int PromotionSlots { get; set; }
     public int RelegationSlots { get; set; }
     public List<Team> Teams { get; set; }
+    public List<Round> Rounds { get; set; }
 
     public League(string name, int cha, int eur, int con, int pro, int rel)
     {
@@ -17,10 +18,16 @@ public class League
         PromotionSlots = pro;
         RelegationSlots = rel;
         Teams = new List<Team>();
+        Rounds = new List<Round>();
     }
 
     public void AddTeam(Team team)
     {
         Teams.Add(team);
+    }
+
+    public void AddRound(Round round)
+    {
+        Rounds.Add(round);
     }
 }
