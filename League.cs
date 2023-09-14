@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 public class League
 {
     public string Name { get; set; }
@@ -29,5 +31,10 @@ public class League
     public void AddRound(Round round)
     {
         Rounds.Add(round);
+    }
+
+    public Team FindByAbbr(string abbr)
+    {
+        return Teams.Find(team => team.Abbr == abbr) ?? new Team("","Unkown team","");
     }
 }

@@ -23,7 +23,9 @@ class Program
             {
                 foreach (Match match in round.Matches)
             {                
-                string outputString = count + ": " + match.HomeAbbr + " v " + match.AwayAbbr + " > " + match.Score;
+                string homeName = league.FindByAbbr(match.HomeAbbr).Name;
+                string awayName = league.FindByAbbr(match.AwayAbbr).Name;
+                string outputString = round.Id + ": " + count + ": " + homeName + " v " + awayName + " > " + match.Score;
                 Console.WriteLine(outputString);
                 count++;
             }
