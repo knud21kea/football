@@ -1,4 +1,5 @@
 using System.Reflection.Metadata.Ecma335;
+using System.Collections;
 
 public class League
 {
@@ -8,8 +9,10 @@ public class League
     public int ConferenceLeague { get; set; }
     public int PromotionSlots { get; set; }
     public int RelegationSlots { get; set; }
-    public List<Team> Teams { get; set; }
-    public List<Round> Rounds { get; set; }
+    public Team[] Teams { get; set; } // Array as needs fixed size
+    public Round[] Rounds { get; set; } // Array as needs to be iterable
+    public int RoundsPlayed { get; set; }
+    public int TeamsEnrolled { get; set; }
 
     public League(string name, int cha, int eur, int con, int pro, int rel)
     {
@@ -19,22 +22,32 @@ public class League
         ConferenceLeague = con;
         PromotionSlots = pro;
         RelegationSlots = rel;
-        Teams = new List<Team>();
-        Rounds = new List<Round>();
+        Teams = new Team[12];
+        Rounds = new Round[32];
+        RoundsPlayed = 0;
+        TeamsEnrolled = 0;
     }
 
     public void AddTeam(Team team)
     {
-        Teams.Add(team);
+        if (TeamsEnrolled < 12)
+        {
+            Teams[TeamsEnrolled] = team;
+            TeamsEnrolled++;
+        }
     }
 
     public void AddRound(Round round)
     {
-        Rounds.Add(round);
+        if (RoundsPlayed < 32)
+        {
+            Rounds[round.Id] = round;
+            RoundsPlayed++;
+        }
     }
 
     public Team FindByAbbr(string abbr)
     {
-        return Teams.Find(team => team.Abbr == abbr) ?? new Team("","Unkown team","");
+        return Teams.FirstOrDefault(t => t.Abbr == abbr) ?? new Team("", "Unkown team", "");
     }
 }

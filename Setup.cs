@@ -47,7 +47,6 @@ static class Setup
 
                     List<string> teamData = GetTeamData(subfolder);
                     // add teams to league
-
                     foreach (string team in teamData)
                     {
                         try
@@ -64,19 +63,22 @@ static class Setup
                             Console.WriteLine("An error occurred while reading a team file." + e.Message);
                         }
                     }
-
+                    
                     string[] subSubfolders = Directory.GetDirectories(subfolder);
                     foreach (string subSubfolder in subSubfolders)
                     {
                         try
                         {
-                            string[] files = Directory.GetFiles(subSubfolder);                            
-                            int roundId = 0;
+                            string[] files = Directory.GetFiles(subSubfolder);
                             foreach (string file in files)
                             {
                                 using StreamReader reader = new(file);
-                                Round currentRound = new(roundId);
+                                int start = file.LastIndexOf("-") + 1;
+                                int length = file.LastIndexOf(".") - start;
+                                int roundId = Int32.Parse(file.Substring(start, length));
+                                Round currentRound = new(roundId - 1);
                                 string? line;
+                                int lineNumber = 1;
                                 while ((line = reader.ReadLine()) != null)
                                 {
                                     try
@@ -88,13 +90,14 @@ static class Setup
                                         string comment = values[3];
                                         Match newMatch = new(home, away, score, comment);
                                         currentRound.AddMatch(newMatch);
+                                        lineNumber++;
+                                        //Console.WriteLine(newMatch.HomeAbbr + newMatch.AwayAbbr);
                                     }
                                     catch (Exception e)
                                     {
                                         Console.WriteLine("An error occurred while reading a round file." + e.Message);
                                     }
                                 }
-                                roundId++;
                                 currentLeague?.AddRound(currentRound);
                             }
                         }
