@@ -10,7 +10,7 @@ public class Team
     public int GoalsFor { get; set; }
     public int GoalsAgainst { get; set; }
     public int GoalDifference { get; set; }
-    public int PointsGained { get; set; }
+    public int? PointsGained { get; set; }
     public string? StreakFive { get; set; }
 
     public Team(string abbr, string name, string special)

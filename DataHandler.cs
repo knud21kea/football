@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 namespace football;
 
@@ -18,13 +19,13 @@ public static class DataHandler
         // need to process the data in each match for a round
         // working for one round, try with two - success
 
-        int roundsPlayed = 4;
+        int roundsPlayed = 11;
         for (int i = 0; i < roundsPlayed; i++)
         {
-            MatchesInRound(league, i);
+            //MatchesInRound(league, i);
             ProcessOneRound(league, i);
+            OutputStandings(league, i + 1);
         }
-        OutputStandings(league);
     }
 
     private static void ProcessOneRound(League league, int round)
@@ -85,16 +86,21 @@ public static class DataHandler
         t.StreakFive = string.Concat(r, t.StreakFive.AsSpan(0, 4));
     }
 
-    private static void OutputStandings(League l)
+    private static void OutputStandings(League l, int r)
     {
-        Console.WriteLine("Standings for league: " + l.Name);
+        Array.Sort(l.Teams, new TeamComparer());
+
+        Console.WriteLine("Standings for league: " + l.Name + " after round: " + r);
         string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
         Console.WriteLine(
-        String.Format(tableFormat,"#","S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
+        String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
 
-        foreach (Team t in l.Teams)
+        //foreach (Team t in l.Teams)
+        for (int i = 0; i < 12; i++)
         {
-            Console.WriteLine(
+            Team t = l.Teams[i];
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.Write(
             String.Format(tableFormat,
                 "?",
                 "(" + t.Special + ")",
@@ -108,6 +114,8 @@ public static class DataHandler
                 t.GoalDifference,
                 t.PointsGained,
                 t.StreakFive));
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine();
         }
     }
 
@@ -130,6 +138,36 @@ public static class DataHandler
         foreach (Team team in l.Teams)
         {
             team.ResetStats();
+        }
+    }
+}
+
+internal class TeamComparer : IComparer<Team>
+{
+    public int Compare(Team? x, Team? y)
+    {
+        if (x is Team tX && y is Team tY)
+        {
+            int pointsComparison = (new CaseInsensitiveComparer()).Compare(tY.PointsGained, tX.PointsGained);
+            if (pointsComparison == 0)
+            {
+                int goalDifferenceComparison = tY.GoalDifference.CompareTo(tX.GoalDifference);
+                if (goalDifferenceComparison == 0)
+                {
+                    int goalsAgainstComparison = tY.GoalsAgainst.CompareTo(tX.GoalsAgainst);
+                    if (goalsAgainstComparison == 0)
+                    {
+                        return tX.Name.CompareTo(tY.Name);
+                    }
+                    return goalsAgainstComparison;
+                }
+                return goalDifferenceComparison;
+            }
+            return pointsComparison;
+        }
+        else
+        {
+            throw new ArgumentException("Both objects must be of type Team");
         }
     }
 }
