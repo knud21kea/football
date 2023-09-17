@@ -24,14 +24,14 @@ static class RoundGenerator
     {"BF","DE","AC"}  
     };
 
-    public static void UpdateData()
+    public static void UpdateData(string LN)
     {
-        string teams = FileHandler.GetTeamAbbreviations("./CSV-files/SL/teams.csv");
+        string teams = FileHandler.GetTeamAbbreviations("./CSV-files/"+LN+"/teams.csv");
         string[] abbreviations = teams.Split(';');
         for (int r = 0; r < 22; r++)
         {
             string round = GenerateRoundMatches22(abbreviations, r);
-            File.WriteAllText("./CSV-files/SL/rounds/round-" + (r + 1) + ".csv", round);
+            File.WriteAllText("./CSV-files/"+LN+"/rounds/round-" + (r + 1) + ".csv", round);
         }
         // after 22 rounds we need to generate 10 more rounds
         // here the top 6 teams play each other home and away and similarly the bottom 6
@@ -48,7 +48,7 @@ static class RoundGenerator
             string upperRound = GenerateRoundMatches32(topAbbrs, r);
             string lowerRound = GenerateRoundMatches32(bottomAbbrs, r);
             string round = upperRound + lowerRound;
-            File.WriteAllText("./CSV-files/SL/rounds/round-" + (r + 23) + ".csv", round);
+            File.WriteAllText("./CSV-files/"+LN+"/rounds/round-" + (r + 23) + ".csv", round);
         }
     }
 

@@ -7,43 +7,17 @@ class Program
 {
     static void Main(string[] args)
     {
-        //RoundGenerator.UpdateData();
+        //RoundGenerator.UpdateData("SL"); // data for 32 rounds in Superliga
+        //RoundGenerator.UpdateData("D1"); // data for 32 rounds in NordicBet liga
 
         Dbu DBU = new();
         Setup.LoadData(DBU);
         foreach (League league in DBU.Leagues)
         {
-            if (league.Name == "Superliga")
+            if (league.Name == "NordicBet Liga")
             {
                 DataHandler.JustPlayingAround(league);
             }
-        }
-
-
-
-
-
-        //foreach (League league in DBU.Leagues)
-
-        {
-            /* Console.WriteLine("**** " + league.Name + " ****");
-            foreach (Team team in league.Teams)
-            {
-                Console.WriteLine(team.Abbr + " : " + team.Name);
-            } */
-
-            /* for (int i = 0; i < league.Rounds.Length; i++)
-            {
-                Round round = league.Rounds[i];
-                //Console.WriteLine(league.Teams[i].Name);
-                foreach (Match match in round.Matches)
-                {
-                    string homeName = league.FindByAbbr(match.HomeAbbr).Name;
-                    string awayName = league.FindByAbbr(match.AwayAbbr).Name;
-                    string outputString = round.Id + ": " + i + ": " + homeName + " v " + awayName + " > " + match.Score;
-                    Console.WriteLine(outputString);
-                }
-            } */
         }
     }
 }

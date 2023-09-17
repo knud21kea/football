@@ -11,12 +11,14 @@ public class Team
     public int GoalsAgainst { get; set; }
     public int GoalDifference { get; set; }
     public int PointsGained { get; set; }
+    public string? StreakFive { get; set; }
 
     public Team(string abbr, string name, string special)
     {
         Abbr = abbr;
         Name = name;
         Special = special;
+        ResetStats();
     }
 
     public void ResetStats()
@@ -29,5 +31,6 @@ public class Team
         GoalsAgainst = 0;
         GoalDifference = 0;
         PointsGained = 0;
+        StreakFive = "-----";
     }
 }
