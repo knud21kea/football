@@ -19,13 +19,24 @@ public static class DataHandler
         // need to process the data in each match for a round
         // working for one round, try with two - success
 
-        int roundsPlayed = 11;
+        int roundsPlayed = 22;
         for (int i = 0; i < roundsPlayed; i++)
         {
             //MatchesInRound(league, i);
             ProcessOneRound(league, i);
             OutputStandings(league, i + 1);
         }
+    }
+
+    public static void PredictStandingsAfter22(League league)
+    {
+        ResetTeamStats(league);
+        int roundsPlayed = 22;
+        for (int i = 0; i < roundsPlayed; i++)
+        {
+            ProcessOneRound(league, i);
+        }
+        Array.Sort(league.Teams, new TeamComparer());
     }
 
     private static void ProcessOneRound(League league, int round)
@@ -95,14 +106,23 @@ public static class DataHandler
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
 
-        //foreach (Team t in l.Teams)
+        string position;
         for (int i = 0; i < 12; i++)
         {
             Team t = l.Teams[i];
+            position = (i + 1).ToString();
+            if (i > 1)
+            {
+                Team pt = l.Teams[i - 1];
+                if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference))
+                {
+                    position = "-";
+                }
+            }
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.Write(
             String.Format(tableFormat,
-                "?",
+                position,
                 "(" + t.Special + ")",
                 t.Name + "(" + t.Abbr + ")",
                 t.GamesPlayed,

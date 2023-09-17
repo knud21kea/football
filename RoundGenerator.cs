@@ -1,6 +1,6 @@
 static class RoundGenerator
 {
-    
+
     static readonly string scheduleCode = "ABCDEFGHIJKL";
     static readonly string[,] fixtures22 = {
     {"DF","CE","AK","HI","BJ","GL"},
@@ -17,27 +17,38 @@ static class RoundGenerator
     };
 
     static readonly string[,] fixtures32 = {
-    {"AD","BE","CF"},  
-    {"BD","AF","CE"},  
-    {"CD","EF","AB"},  
-    {"AE","BC","DF"},  
-    {"BF","DE","AC"}  
+    {"AD","BE","CF"},
+    {"BD","AF","CE"},
+    {"CD","EF","AB"},
+    {"AE","BC","DF"},
+    {"BF","DE","AC"}
     };
 
-    public static void UpdateData(string LN)
+    public static void UpdateData22(League league)
     {
-        string teams = FileHandler.GetTeamAbbreviations("./CSV-files/"+LN+"/teams.csv");
+        string LN = league.Id;
+        string teams = FileHandler.GetTeamAbbreviations("./CSV-files/" + LN + "/teams.csv");
         string[] abbreviations = teams.Split(';');
         for (int r = 0; r < 22; r++)
         {
             string round = GenerateRoundMatches22(abbreviations, r);
-            File.WriteAllText("./CSV-files/"+LN+"/rounds/round-" + (r + 1) + ".csv", round);
+            File.WriteAllText("./CSV-files/" + LN + "/rounds/round-" + (r + 1) + ".csv", round);
         }
+    }
+
+    public static void UpdateData32(League league)
+    {
         // after 22 rounds we need to generate 10 more rounds
         // here the top 6 teams play each other home and away and similarly the bottom 6
         // start with an ordered list and use a modified match generator
         // to test we assume that the first 6 remain in the top half
         // in production we have to find the standings after 22 rounds and sort
+        string LN = league.Id;
+        string[] abbreviations = new string[12];
+        for (int i = 0; i < 12; i++)
+        {
+            abbreviations[i] = league.Teams[i].Abbr;
+        }        
         string[] topAbbrs = new string[6];
         string[] bottomAbbrs = new string[6];
         Array.Copy(abbreviations, 0, topAbbrs, 0, 6);
@@ -57,11 +68,12 @@ static class RoundGenerator
         string csvForRound = "";
         for (int m = 0; m < 6; m++)
         {
-            string codes = fixtures22[round%11,m];
-            string homeTeam = teams[scheduleCode.IndexOf(codes.Substring(0,1))];
-            string awayTeam = teams[scheduleCode.IndexOf(codes.Substring(1,1))];
+            string codes = fixtures22[round % 11, m];
+            string homeTeam = teams[scheduleCode.IndexOf(codes.Substring(0, 1))];
+            string awayTeam = teams[scheduleCode.IndexOf(codes.Substring(1, 1))];
             string[] twoTeams = { homeTeam, awayTeam };
-            if (round > 10) {
+            if (round > 10)
+            {
                 Array.Reverse(twoTeams);
             }
             csvForRound += GenerateRoundData(twoTeams);
@@ -73,10 +85,10 @@ static class RoundGenerator
     {
         string csvForRound = "";
         for (int m = 0; m < 3; m++)
-        {        
-            string codes = fixtures32[round%5,m];
-            string homeTeam = teams[scheduleCode.IndexOf(codes.Substring(0,1))];
-            string awayTeam = teams[scheduleCode.IndexOf(codes.Substring(1,1))];
+        {
+            string codes = fixtures32[round % 5, m];
+            string homeTeam = teams[scheduleCode.IndexOf(codes.Substring(0, 1))];
+            string awayTeam = teams[scheduleCode.IndexOf(codes.Substring(1, 1))];
             string[] twoTeams = { homeTeam, awayTeam };
             if (round > 4)
             {

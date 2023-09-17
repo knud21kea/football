@@ -3,6 +3,7 @@ using System.Collections;
 
 public class League
 {
+    public string Id { get; set; }
     public string Name { get; set; }
     public int ChampionsLeague { get; set; }
     public int EuropaLeague { get; set; }
@@ -14,8 +15,9 @@ public class League
     public int RoundsPlayed { get; set; }
     public int TeamsEnrolled { get; set; }
 
-    public League(string name, int cha, int eur, int con, int pro, int rel)
+    public League(string id, string name, int cha, int eur, int con, int pro, int rel)
     {
+        Id = id;
         Name = name;
         ChampionsLeague = cha;
         EuropaLeague = eur;

@@ -37,7 +37,8 @@ static class Setup
                         int con = Int32.Parse(values[3]);
                         int pro = Int32.Parse(values[4]);
                         int rel = Int32.Parse(values[5]);
-                        currentLeague = new(name, cha, eur, con, pro, rel);
+                        string id = subfolder.Substring(subfolder.Length - 2);
+                        currentLeague = new(id, name, cha, eur, con, pro, rel);
                         dbu.AddLeague(currentLeague);
                     }
                     catch (Exception e)
