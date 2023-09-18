@@ -11,19 +11,20 @@ public static class DataHandler
 
     public static void JustPlayingAround(League league)
     {
-        Console.WriteLine("\n" + league.Name.ToUpper());
         ResetTeamStats(league);
 
-        //MatchesInRound(league, testRound + 10);
-        // can we add a rounds data to a team?
-        // need to process the data in each match for a round
-        // working for one round, try with two - success
-
-        int roundsPlayed = 22;
+        int roundsPlayed = 23;
         for (int i = 0; i < roundsPlayed; i++)
         {
             ProcessOneRound(league, i);
-            OutputStandings(league, i + 1);
+            if (i < 33)
+            {
+                OutputStandings22(league, i + 1);
+            }
+            else
+            {
+                OutputStandings32(league, i + 1);
+            }
         }
     }
 
@@ -40,12 +41,16 @@ public static class DataHandler
 
     private static void ProcessOneRound(League league, int round)
     {
-        Console.WriteLine("Test : " + league.Teams[0].Abbr);
         int matchId = 1;
         int r = round;
         League l = league;
         foreach (Match m in l.Rounds[r].Matches)
         {
+            if (r == 22)
+            {
+                Console.WriteLine(m.HomeAbbr + " | " + m.AwayAbbr + " | " + m.Score);
+            }
+            
             Team homeTeam = l.FindByAbbr(m.HomeAbbr);
             Team awayTeam = l.FindByAbbr(m.AwayAbbr);
             string[] values = m.Score.Split('-');
@@ -97,7 +102,7 @@ public static class DataHandler
         t.StreakFive = string.Concat(r, t.StreakFive.AsSpan(0, 4));
     }
 
-    private static void OutputStandings(League l, int r)
+    private static void OutputStandings22(League l, int r)
     {
         Array.Sort(l.Teams, new TeamComparer());
 
@@ -139,6 +144,59 @@ public static class DataHandler
         }
     }
 
+    private static void OutputStandings32(League l, int r)
+    {
+        Array.Sort(l.Teams, new TeamComparer()); // TODO
+
+        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|"; 
+        Console.WriteLine("\nStandings for league: " + l.Name + "Promotion Group after round: " + r);
+        Console.WriteLine(
+        String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
+        for (int i = 0; i < 6; i++)
+        {
+            OutputTableRow(l, i, tableFormat);
+        }
+        Console.WriteLine("\nStandings for league: " + l.Name + "Relegation Group after round: " + r);
+        Console.WriteLine(
+        String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
+        for (int i = 6; i < 12; i++)
+        {
+            OutputTableRow(l, i, tableFormat);
+        }
+    }
+
+    private static void OutputTableRow(League l, int i, string format)
+    {
+        Team t = l.Teams[i];
+        string position = (i + 1).ToString();;
+        if (i > 1)
+        {
+            Team pt = l.Teams[i - 1];
+            if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference))
+            {
+                position = "-";
+            }
+        }
+        Console.BackgroundColor = ConsoleColor.DarkGray;
+        Console.Write(
+        String.Format(format,
+            position,
+            "(" + t.Special + ")",
+            t.Name + "(" + t.Abbr + ")",
+            t.GamesPlayed,
+            t.GamesWon,
+            t.GamesDrawn,
+            t.GamesLost,
+            t.GoalsFor,
+            t.GoalsAgainst,
+            t.GoalDifference,
+            t.PointsGained,
+            t.StreakFive));
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.WriteLine();
+
+    }
+
     private static void MatchesInRound(League l, int r)
     {
         int matchId = 1;
@@ -159,6 +217,11 @@ public static class DataHandler
         {
             team.ResetStats();
         }
+    }
+
+    public static void TestFunction()
+    {
+        Console.WriteLine("** TEST **");
     }
 }
 

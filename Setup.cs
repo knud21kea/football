@@ -15,7 +15,6 @@ static class Setup
             {
 
                 string setupData = GetSetupData(subfolder);
-                Console.WriteLine(setupData);
                 // create League if able
                 if (!string.IsNullOrEmpty(setupData))
                 {
@@ -37,7 +36,6 @@ static class Setup
                     {
                         Console.WriteLine("Could not create league." + e.Message);
                     }
-
                     List<string> teamData = GetTeamData(subfolder);
                     // add teams to league
                     foreach (string team in teamData)
@@ -57,57 +55,76 @@ static class Setup
                         }
                     }
 
-                    RoundGenerator.UpdateData22(currentLeague);
-
-
-                    string[] subSubfolders = Directory.GetDirectories(subfolder);
-                    foreach (string subSubfolder in subSubfolders)
-                    {
-                        try
-                        {
-                            string[] files = Directory.GetFiles(subSubfolder);
-                            Console.WriteLine("looking in : " + subSubfolder);
-                            foreach (string file in files)
-                            {
-                                using StreamReader reader = new(file);
-                                int start = file.LastIndexOf("-") + 1;
-                                int length = file.LastIndexOf(".") - start;
-                                int roundId = Int32.Parse(file.Substring(start, length));
-                                Round currentRound = new(roundId - 1);
-                                string? line;
-                                int lineNumber = 1;
-                                while ((line = reader.ReadLine()) != null)
-                                {
-                                    try
-                                    {
-                                        string[] values = line.Split(';');
-                                        string home = values[0];
-                                        string away = values[1];
-                                        string score = values[2];
-                                        string comment = values[3];
-                                        Match newMatch = new(home, away, score, comment);
-                                        currentRound.AddMatch(newMatch);
-                                        lineNumber++;
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Console.WriteLine("An error occurred while reading a round file." + e.Message);
-                                    }
-                                }
-                                currentLeague.AddRound(currentRound);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine($"Error: {e.Message}");
-                        }
-                    }
+                    //RoundGenerator.UpdateData22(currentLeague); Now have 22 on file
+                    // need to import them here
+                    RoundsAndMatches(subfolder, 0);
+                    football.DataHandler.PredictStandingsAfter22(currentLeague);
+                    Array.Copy(currentLeague.Teams, 0, currentLeague.PromotionTeams, 0, 6);
+                    Array.Copy(currentLeague.Teams, 6, currentLeague.RelegationTeams, 0, 6);
+                    RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
+                    // need to import them (and not the first 22 again)
+                    
                 }
             }
         }
         catch (Exception e)
         {
             Console.WriteLine($"Error: {e.Message}");
+        }
+    }
+
+    private static void RoundsAndMatches(string subfolder, int startRound)
+    {
+        string[] subSubfolders = Directory.GetDirectories(subfolder);
+        foreach (string subSubfolder in subSubfolders)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(subSubfolder);
+                foreach (string file in files)
+                {
+                    using StreamReader reader = new(file);
+                    int start = file.LastIndexOf("-") + 1;
+                    int length = file.LastIndexOf(".") - start;
+                    int roundId = Int32.Parse(file.Substring(start, length));
+                    if (roundId > startRound)
+                    {
+                        Round currentRound = new(roundId - 1);
+                        string? line;
+                        int lineNumber = 1;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            try
+                            {
+                                string[] values = line.Split(';');
+                                string home = values[0];
+                                string away = values[1];
+                                string score = values[2];
+                                string comment = values[3];
+                                Match newMatch = new(home, away, score, comment);
+
+                                if (roundId == 23)
+                                {
+                                    Console.WriteLine("Test : " + newMatch.HomeAbbr + " | " + newMatch.AwayAbbr + " | " + newMatch.Score);
+                                }
+
+                                currentRound.AddMatch(newMatch);
+                                lineNumber++;
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("An error occurred while reading a round file." + e.Message);
+                            }
+                        }
+                        currentLeague.AddRound(currentRound);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
         }
     }
 

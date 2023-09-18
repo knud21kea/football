@@ -27,7 +27,6 @@ static class RoundGenerator
     public static void UpdateData22(League league)
     {
         string LN = league.Id;
-        Console.WriteLine(LN);
         string teams = FileHandler.GetTeamAbbreviations("./CSV-files/" + LN + "/teams.csv");
         string[] abbreviations = teams.Split(';');
         for (int r = 0; r < 22; r++)
@@ -45,22 +44,19 @@ static class RoundGenerator
         // to test we assume that the first 6 remain in the top half
         // in production we have to find the standings after 22 rounds and sort
         string LN = league.Id;
-        string[] abbreviations = new string[12];
-        for (int i = 0; i < 12; i++)
-        {
-            abbreviations[i] = league.Teams[i].Abbr;
-        }     
         string[] topAbbrs = new string[6];
         string[] bottomAbbrs = new string[6];
-        Array.Copy(abbreviations, 0, topAbbrs, 0, 6);
-        Array.Copy(abbreviations, 6, bottomAbbrs, 0, 6);
-
+        for (int i = 0; i < 6; i++)
+        {
+            topAbbrs[i] = league.PromotionTeams[i].Abbr;
+            bottomAbbrs[i] = league.RelegationTeams[i].Abbr;
+        }
         for (int r = 0; r < 10; r++)
         {
-            string upperRound = GenerateRoundMatches32(topAbbrs, r);
-            string lowerRound = GenerateRoundMatches32(bottomAbbrs, r);
+            string upperRound = GenerateRoundMatches32(topAbbrs, r); // 3 matches in promotion group
+            string lowerRound = GenerateRoundMatches32(bottomAbbrs, r); // 3 matches in relegation group
             string round = upperRound + lowerRound;
-            File.WriteAllText("./CSV-files/"+LN+"/rounds/round-" + (r + 23) + ".csv", round);
+            File.WriteAllText("./CSV-files/" + LN + "/rounds/round-" + (r + 23) + ".csv", round);
         }
     }
 

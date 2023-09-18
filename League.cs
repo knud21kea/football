@@ -11,6 +11,8 @@ public class League
     public int PromotionSlots { get; set; }
     public int RelegationSlots { get; set; }
     public Team[] Teams { get; set; } // Array as needs fixed size
+    public Team[] PromotionTeams { get; set; } // Array as needs fixed size
+    public Team[] RelegationTeams { get; set; } // Array as needs fixed size
     public Round[] Rounds { get; set; } // Array as needs to be iterable
     public int RoundsPlayed { get; set; }
     public int TeamsEnrolled { get; set; }
@@ -25,6 +27,8 @@ public class League
         PromotionSlots = pro;
         RelegationSlots = rel;
         Teams = new Team[12];
+        PromotionTeams = new Team[6];
+        RelegationTeams = new Team[6];
         Rounds = new Round[32];
         RoundsPlayed = 0;
         TeamsEnrolled = 0;
