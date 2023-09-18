@@ -13,11 +13,11 @@ public static class DataHandler
     {
         ResetTeamStats(league);
 
-        int roundsPlayed = 23;
+        int roundsPlayed = 32;
         for (int i = 0; i < roundsPlayed; i++)
         {
             ProcessOneRound(league, i);
-            if (i < 33)
+            if (i < 22)
             {
                 OutputStandings22(league, i + 1);
             }
@@ -46,11 +46,6 @@ public static class DataHandler
         League l = league;
         foreach (Match m in l.Rounds[r].Matches)
         {
-            if (r == 22)
-            {
-                Console.WriteLine(m.HomeAbbr + " | " + m.AwayAbbr + " | " + m.Score);
-            }
-            
             Team homeTeam = l.FindByAbbr(m.HomeAbbr);
             Team awayTeam = l.FindByAbbr(m.AwayAbbr);
             string[] values = m.Score.Split('-');
@@ -110,68 +105,41 @@ public static class DataHandler
         string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
-
-        string position;
         for (int i = 0; i < 12; i++)
         {
-            Team t = l.Teams[i];
-            position = (i + 1).ToString();
-            if (i > 1)
-            {
-                Team pt = l.Teams[i - 1];
-                if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference))
-                {
-                    position = "-";
-                }
-            }
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.Write(
-            String.Format(tableFormat,
-                position,
-                "(" + t.Special + ")",
-                t.Name + "(" + t.Abbr + ")",
-                t.GamesPlayed,
-                t.GamesWon,
-                t.GamesDrawn,
-                t.GamesLost,
-                t.GoalsFor,
-                t.GoalsAgainst,
-                t.GoalDifference,
-                t.PointsGained,
-                t.StreakFive));
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine();
+            OutputTableRow(l.Teams, i, 0, tableFormat);
         }
     }
 
     private static void OutputStandings32(League l, int r)
     {
-        Array.Sort(l.Teams, new TeamComparer()); // TODO
+        Array.Sort(l.PromotionTeams, new TeamComparer());
+        Array.Sort(l.RelegationTeams, new TeamComparer());
 
-        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|"; 
-        Console.WriteLine("\nStandings for league: " + l.Name + "Promotion Group after round: " + r);
+        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
+        Console.WriteLine("\nStandings for league: " + l.Name + " Promotion Group after round: " + r);
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 6; i++)
         {
-            OutputTableRow(l, i, tableFormat);
+            OutputTableRow(l.PromotionTeams, i, 0, tableFormat);
         }
-        Console.WriteLine("\nStandings for league: " + l.Name + "Relegation Group after round: " + r);
+        Console.WriteLine("\nStandings for league: " + l.Name + " Relegation Group after round: " + r);
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
-        for (int i = 6; i < 12; i++)
+        for (int i = 0; i < 6; i++)
         {
-            OutputTableRow(l, i, tableFormat);
+            OutputTableRow(l.RelegationTeams, i, 6, tableFormat);
         }
     }
 
-    private static void OutputTableRow(League l, int i, string format)
+    private static void OutputTableRow(Team[] teams, int i, int offset, string format)
     {
-        Team t = l.Teams[i];
-        string position = (i + 1).ToString();;
+        Team t = teams[i];
+        string position = (i + offset + 1).ToString(); ;
         if (i > 1)
         {
-            Team pt = l.Teams[i - 1];
+            Team pt = teams[i - 1];
             if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference))
             {
                 position = "-";
@@ -182,7 +150,7 @@ public static class DataHandler
         String.Format(format,
             position,
             "(" + t.Special + ")",
-            t.Name + "(" + t.Abbr + ")",
+            t.Name + " (" + t.Abbr + ")",
             t.GamesPlayed,
             t.GamesWon,
             t.GamesDrawn,
@@ -217,11 +185,6 @@ public static class DataHandler
         {
             team.ResetStats();
         }
-    }
-
-    public static void TestFunction()
-    {
-        Console.WriteLine("** TEST **");
     }
 }
 

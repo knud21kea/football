@@ -55,15 +55,15 @@ static class Setup
                         }
                     }
 
-                    //RoundGenerator.UpdateData22(currentLeague); Now have 22 on file
+                    //RoundGenerator.UpdateData22(currentLeague); // Now have 22 on file
                     // need to import them here
                     RoundsAndMatches(subfolder, 0);
                     football.DataHandler.PredictStandingsAfter22(currentLeague);
                     Array.Copy(currentLeague.Teams, 0, currentLeague.PromotionTeams, 0, 6);
                     Array.Copy(currentLeague.Teams, 6, currentLeague.RelegationTeams, 0, 6);
-                    RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
+                    //RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
                     // need to import them (and not the first 22 again)
-                    
+                    RoundsAndMatches(subfolder, 22);
                 }
             }
         }
@@ -102,12 +102,6 @@ static class Setup
                                 string score = values[2];
                                 string comment = values[3];
                                 Match newMatch = new(home, away, score, comment);
-
-                                if (roundId == 23)
-                                {
-                                    Console.WriteLine("Test : " + newMatch.HomeAbbr + " | " + newMatch.AwayAbbr + " | " + newMatch.Score);
-                                }
-
                                 currentRound.AddMatch(newMatch);
                                 lineNumber++;
                             }
