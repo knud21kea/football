@@ -1,18 +1,7 @@
 static class Setup
 {
-    private static League? currentLeague;
 
-    // try to initialise everything
-    // loop over all subfolders in CSV-files
-    // load the setup.cs and use to create a League
-    // add League to DBU
-    // load the teams file and use it to create 12 Teams
-    // add teams to League
-    // loop over the rounds subfolder
-    // each round contains 12 matches (do we need a match class)
-    // add matches to round and round to league
-    // every thing has to be done whilst still in the folder or we cant find which league the data is for
-
+    public static League currentLeague = new("", "", 0, 0, 0, 0, 0);
     public static void LoadData(Dbu dbu)
     {
         string rootFolder = @".\CSV-files";
@@ -24,22 +13,25 @@ static class Setup
             // Loop through each subfolder
             foreach (string subfolder in subfolders)
             {
+
                 string setupData = GetSetupData(subfolder);
+                Console.WriteLine(setupData);
                 // create League if able
                 if (!string.IsNullOrEmpty(setupData))
                 {
                     try
                     {
                         string[] values = setupData.Split(';');
-                        string name = values[0];
-                        int cha = Int32.Parse(values[1]);
-                        int eur = Int32.Parse(values[2]);
-                        int con = Int32.Parse(values[3]);
-                        int pro = Int32.Parse(values[4]);
-                        int rel = Int32.Parse(values[5]);
-                        string id = subfolder.Substring(subfolder.Length - 2);
-                        currentLeague = new(id, name, cha, eur, con, pro, rel);
-                        dbu.AddLeague(currentLeague);
+                        League newLeague = new(
+                        subfolder[^2..],
+                        values[0],
+                        Int32.Parse(values[1]),
+                        Int32.Parse(values[2]),
+                        Int32.Parse(values[3]),
+                        Int32.Parse(values[4]),
+                        Int32.Parse(values[5]));
+                        dbu.AddLeague(newLeague);
+                        currentLeague = newLeague;
                     }
                     catch (Exception e)
                     {
@@ -57,20 +49,24 @@ static class Setup
                             string name = values[1];
                             string spec = values[2];
                             Team newTeam = new(abbr, name, spec);
-                            currentLeague?.AddTeam(newTeam);
+                            currentLeague.AddTeam(newTeam);
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("An error occurred while reading a team file." + e.Message);
                         }
                     }
-                    
+
+                    RoundGenerator.UpdateData22(currentLeague);
+
+
                     string[] subSubfolders = Directory.GetDirectories(subfolder);
                     foreach (string subSubfolder in subSubfolders)
                     {
                         try
                         {
                             string[] files = Directory.GetFiles(subSubfolder);
+                            Console.WriteLine("looking in : " + subSubfolder);
                             foreach (string file in files)
                             {
                                 using StreamReader reader = new(file);
@@ -92,14 +88,13 @@ static class Setup
                                         Match newMatch = new(home, away, score, comment);
                                         currentRound.AddMatch(newMatch);
                                         lineNumber++;
-                                        //Console.WriteLine(newMatch.HomeAbbr + newMatch.AwayAbbr);
                                     }
                                     catch (Exception e)
                                     {
                                         Console.WriteLine("An error occurred while reading a round file." + e.Message);
                                     }
                                 }
-                                currentLeague?.AddRound(currentRound);
+                                currentLeague.AddRound(currentRound);
                             }
                         }
                         catch (Exception e)

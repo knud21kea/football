@@ -22,7 +22,6 @@ public static class DataHandler
         int roundsPlayed = 22;
         for (int i = 0; i < roundsPlayed; i++)
         {
-            //MatchesInRound(league, i);
             ProcessOneRound(league, i);
             OutputStandings(league, i + 1);
         }
@@ -41,6 +40,7 @@ public static class DataHandler
 
     private static void ProcessOneRound(League league, int round)
     {
+        Console.WriteLine("Test : " + league.Teams[0].Abbr);
         int matchId = 1;
         int r = round;
         League l = league;

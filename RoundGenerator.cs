@@ -27,6 +27,7 @@ static class RoundGenerator
     public static void UpdateData22(League league)
     {
         string LN = league.Id;
+        Console.WriteLine(LN);
         string teams = FileHandler.GetTeamAbbreviations("./CSV-files/" + LN + "/teams.csv");
         string[] abbreviations = teams.Split(';');
         for (int r = 0; r < 22; r++)
@@ -48,7 +49,7 @@ static class RoundGenerator
         for (int i = 0; i < 12; i++)
         {
             abbreviations[i] = league.Teams[i].Abbr;
-        }        
+        }     
         string[] topAbbrs = new string[6];
         string[] bottomAbbrs = new string[6];
         Array.Copy(abbreviations, 0, topAbbrs, 0, 6);

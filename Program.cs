@@ -11,14 +11,14 @@ class Program
         Setup.LoadData(DBU);
         foreach (League league in DBU.Leagues)
         {
-            
-            RoundGenerator.UpdateData22(league);
-            DataHandler.PredictStandingsAfter22(league);
-            RoundGenerator.UpdateData32(league);
 
+
+            Console.WriteLine("League name : " + league.Name);
             //if (league.Name == "NordicBet Liga")
             if (league.Name == "3F Superliga")
             {
+                DataHandler.PredictStandingsAfter22(league);
+                RoundGenerator.UpdateData32(league);
                 DataHandler.JustPlayingAround(league);
             }
         }
