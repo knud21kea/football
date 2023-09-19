@@ -8,10 +8,11 @@ class Program
     static void Main(string[] args)
     {
         Dbu DBU = new();
-        Setup.LoadData(DBU, true); // set false to skip loading new match data
+        Setup.LoadData(DBU, false); // set false to skip loading new match data
         League[] leagues = DBU.Leagues.ToArray();
 
-        int league = 2; // 0:D1, 1:D2, 2:SL
-        DataHandler.JustPlayingAround(leagues[league]);
+        int league = 0; // 0:D1, 1:D2, 2:SL
+        int requiredRounds = 32;
+        DataHandler.JustPlayingAround(leagues[league], requiredRounds);
     }
 }

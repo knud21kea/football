@@ -13,15 +13,17 @@ public static class DataHandler
     // can we just get a round? Yes
 
 
-    public static void JustPlayingAround(League league)
+    public static void JustPlayingAround(League league, int roundsPlayed)
     {
         ResetTeamStats(league);
-
-        int roundsPlayed = 32;
         for (int i = 0; i < roundsPlayed; i++)
         {
-            ProcessOneRound(league, i);
-            if (i < 22)
+            bool roundProcessed = ProcessOneRound(league, i);
+            if (!roundProcessed)
+            {
+                return;
+            }
+            else if (i < 22)
             {
                 OutputStandings22(league, i + 1);
             }
@@ -43,57 +45,67 @@ public static class DataHandler
         Array.Sort(league.Teams, new TeamComparer());
     }
 
-    private static void ProcessOneRound(League league, int round)
+    private static bool ProcessOneRound(League league, int round)
     {
         int matchId = 1;
         int r = round;
         League l = league;
-        foreach (Match m in l.Rounds[r].Matches)
+        try
         {
-            Team homeTeam = l.FindByAbbr(m.HomeAbbr);
-            Team awayTeam = l.FindByAbbr(m.AwayAbbr);
-            string[] values = m.Score.Split('-');
-            int homeGoals = Int32.Parse(values[0]);
-            homeTeam.GoalsFor += homeGoals;
-            awayTeam.GoalsAgainst += homeGoals;
-            int awayGoals = Int32.Parse(values[1]);
-            awayTeam.GoalsFor += awayGoals;
-            homeTeam.GoalsAgainst += awayGoals;
-            if (homeGoals > awayGoals)
+            foreach (Match m in l.Rounds[r].Matches)
             {
-                homeTeam.GamesWon++;
-                awayTeam.GamesLost++;
-                UpdateStreak(homeTeam, "W");
-                UpdateStreak(awayTeam, "L");
-                homeTeam.PointsGained += 3;
+                Team homeTeam = l.FindByAbbr(m.HomeAbbr);
+                Team awayTeam = l.FindByAbbr(m.AwayAbbr);
+                string[] values = m.Score.Split('-');
+                int homeGoals = Int32.Parse(values[0]);
+                homeTeam.GoalsFor += homeGoals;
+                awayTeam.GoalsAgainst += homeGoals;
+                int awayGoals = Int32.Parse(values[1]);
+                awayTeam.GoalsFor += awayGoals;
+                homeTeam.GoalsAgainst += awayGoals;
+                if (homeGoals > awayGoals)
+                {
+                    homeTeam.GamesWon++;
+                    awayTeam.GamesLost++;
+                    UpdateStreak(homeTeam, "W");
+                    UpdateStreak(awayTeam, "L");
+                    homeTeam.PointsGained += 3;
 
-            }
-            else if (homeGoals == awayGoals)
-            {
-                homeTeam.GamesDrawn++;
-                awayTeam.GamesDrawn++;
-                UpdateStreak(homeTeam, "D");
-                UpdateStreak(awayTeam, "D");
-                homeTeam.PointsGained++;
-                awayTeam.PointsGained++;
-            }
-            else
-            {
-                homeTeam.GamesLost++;
-                awayTeam.GamesWon++;
-                UpdateStreak(homeTeam, "L");
-                UpdateStreak(awayTeam, "W");
-                awayTeam.PointsGained += 3;
-            }
-            homeTeam.GamesPlayed++;
-            awayTeam.GamesPlayed++;
-            homeTeam.GoalDifference = homeTeam.GoalsFor - homeTeam.GoalsAgainst;
-            awayTeam.GoalDifference = awayTeam.GoalsFor - awayTeam.GoalsAgainst;
+                }
+                else if (homeGoals == awayGoals)
+                {
+                    homeTeam.GamesDrawn++;
+                    awayTeam.GamesDrawn++;
+                    UpdateStreak(homeTeam, "D");
+                    UpdateStreak(awayTeam, "D");
+                    homeTeam.PointsGained++;
+                    awayTeam.PointsGained++;
+                }
+                else
+                {
+                    homeTeam.GamesLost++;
+                    awayTeam.GamesWon++;
+                    UpdateStreak(homeTeam, "L");
+                    UpdateStreak(awayTeam, "W");
+                    awayTeam.PointsGained += 3;
+                }
+                homeTeam.GamesPlayed++;
+                awayTeam.GamesPlayed++;
+                homeTeam.GoalDifference = homeTeam.GoalsFor - homeTeam.GoalsAgainst;
+                awayTeam.GoalDifference = awayTeam.GoalsFor - awayTeam.GoalsAgainst;
 
 
-            // Points
-            matchId++;
+                // Points
+                matchId++;
+            }
         }
+        catch (Exception)
+        {
+            Console.WriteLine($"Something wrong with round data for round: {r + 1}");
+            Console.WriteLine($"Check file exists and has name: round-{r + 1}.csv");
+            return false;
+        }
+        return true;
     }
 
     private static void UpdateStreak(Team t, string r)
@@ -144,7 +156,7 @@ public static class DataHandler
         if (i > 1)
         {
             Team pt = teams[i - 1];
-            if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference))
+            if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference) && (t.GoalsFor == pt.GoalsFor))
             {
                 position = "-";
             }
@@ -174,15 +186,15 @@ public static class DataHandler
         string[] s = new string[5];
         for (int i = 0; i < 5; i++)
         {
-            s[i] = AddColours(streak.Substring(i,1));
-        }        
+            s[i] = AddColours(streak.Substring(i, 1));
+        }
         return s[0] + s[1] + s[2] + s[3] + s[4] + " \x1B[100m";
     }
 
     private static string AddColours(string s)
     {
         if (s == "W")
-        s = "\x1B[42m" + s;
+            s = "\x1B[42m" + s;
         else if (s == "L")
         {
             s = "\x1B[101m" + s;

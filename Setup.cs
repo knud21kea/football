@@ -63,15 +63,15 @@ static class Setup
                     // need to import them here
                     RoundsAndMatches(subfolder, 0);
 
+                    football.DataHandler.PredictStandingsAfter22(currentLeague);
+                    Array.Copy(currentLeague.Teams, 0, currentLeague.PromotionTeams, 0, 6);
+                    Array.Copy(currentLeague.Teams, 6, currentLeague.RelegationTeams, 0, 6);
+
                     if (dataRefresh)
                     {
                         RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
                     }
 
-                    football.DataHandler.PredictStandingsAfter22(currentLeague);
-                    Array.Copy(currentLeague.Teams, 0, currentLeague.PromotionTeams, 0, 6);
-                    Array.Copy(currentLeague.Teams, 6, currentLeague.RelegationTeams, 0, 6);
-                    
                     // need to import them (and not the first 22 again)
                     RoundsAndMatches(subfolder, 22);
                 }
@@ -96,31 +96,38 @@ static class Setup
                     using StreamReader reader = new(file);
                     int start = file.LastIndexOf("-") + 1;
                     int length = file.LastIndexOf(".") - start;
-                    int roundId = Int32.Parse(file.Substring(start, length));
-                    if (roundId > startRound)
+                    try
                     {
-                        Round currentRound = new(roundId - 1);
-                        string? line;
-                        int lineNumber = 1;
-                        while ((line = reader.ReadLine()) != null)
+                        int roundId = Int32.Parse(file.Substring(start, length));
+                        if (roundId > startRound && roundId < 33)
                         {
-                            try
+                            Round currentRound = new(roundId - 1);
+                            string? line;
+                            int lineNumber = 1;
+                            while ((line = reader.ReadLine()) != null)
                             {
-                                string[] values = line.Split(';');
-                                string home = values[0];
-                                string away = values[1];
-                                string score = values[2];
-                                string comment = values[3];
-                                Match newMatch = new(home, away, score, comment);
-                                currentRound.AddMatch(newMatch);
-                                lineNumber++;
+                                try
+                                {
+                                    string[] values = line.Split(';');
+                                    string home = values[0];
+                                    string away = values[1];
+                                    string score = values[2];
+                                    string comment = values[3];
+                                    Match newMatch = new(home, away, score, comment);
+                                    currentRound.AddMatch(newMatch);
+                                    lineNumber++;
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("An error occurred while reading a round file." + e.Message);
+                                }
                             }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("An error occurred while reading a round file." + e.Message);
-                            }
+                            currentLeague.AddRound(currentRound);
                         }
-                        currentLeague.AddRound(currentRound);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Encountered bad filename in: " + file);
                     }
                 }
             }

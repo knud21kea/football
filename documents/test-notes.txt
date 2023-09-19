@@ -1,0 +1,9 @@
+Round data:
+
+file missing: stops with error message
+filename incorrect (eg round_1.csv): stops with error message
+filename incorrect (eg round_01.csv): continues without error
+filename incorrect (eg round_100.csv): stops with unhelpful error message
+filename incorrect (eg round_1a.csv): stops with error message
+surplus filename (eg round-33.csv): continues without error
+incorrect filename extension (eg round-1.zzz): continues without error
