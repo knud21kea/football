@@ -5,7 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
-*round-
+rounds/
 
 # Build results
 
