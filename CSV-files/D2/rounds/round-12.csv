@@ -1,6 +1,6 @@
-FCR;EFB;1-0;Other data;
-FA2;BRA;1-0;Other data;
-SIK;AB;0-1;Other data;
-MID;HIK;0-2;Other data;
-NFC;AAF;2-2;Other data;
-THI;FAM;2-3;Other data;
+FCR;EFB;0-2;Other data;
+FA2;BRA;0-1;Other data;
+SIK;AB;4-3;Other data;
+MID;HIK;5-0;Other data;
+NFC;AAF;0-1;Other data;
+THI;FAM;1-1;Other data;

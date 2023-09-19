@@ -1,5 +1,9 @@
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography;
 
 namespace football;
 
@@ -101,7 +105,7 @@ public static class DataHandler
     {
         Array.Sort(l.Teams, new TeamComparer());
 
-        Console.WriteLine("Standings for league: " + l.Name + " after round: " + r);
+        Console.WriteLine("\n\x1B[36mStandings for league: " + l.Name + " after round: " + r + "\x1B[0m");
         string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
@@ -117,14 +121,14 @@ public static class DataHandler
         Array.Sort(l.RelegationTeams, new TeamComparer());
 
         string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
-        Console.WriteLine("\nStandings for league: " + l.Name + " Promotion Group after round: " + r);
+        Console.WriteLine("\n\x1B[32mStandings for league: " + l.Name + " Promotion Group after round: " + r + "\x1B[0m");
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 6; i++)
         {
             OutputTableRow(l.PromotionTeams, i, 0, tableFormat);
         }
-        Console.WriteLine("\nStandings for league: " + l.Name + " Relegation Group after round: " + r);
+        Console.WriteLine("\n\x1B[31mStandings for league: " + l.Name + " Relegation Group after round: " + r + "\x1B[0m");
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 6; i++)
@@ -159,10 +163,35 @@ public static class DataHandler
             t.GoalsAgainst,
             t.GoalDifference,
             t.PointsGained,
-            t.StreakFive));
+            ColourStreak(t.StreakFive ?? "-----")));
         Console.BackgroundColor = ConsoleColor.Black;
         Console.WriteLine();
 
+    }
+
+    private static string ColourStreak(string streak)
+    {
+        string[] s = new string[5];
+        for (int i = 0; i < 5; i++)
+        {
+            s[i] = AddColours(streak.Substring(i,1));
+        }        
+        return s[0] + s[1] + s[2] + s[3] + s[4] + " \x1B[100m";
+    }
+
+    private static string AddColours(string s)
+    {
+        if (s == "W")
+        s = "\x1B[42m" + s;
+        else if (s == "L")
+        {
+            s = "\x1B[101m" + s;
+        }
+        else
+        {
+            s = "\x1B[43m" + s;
+        }
+        return s;
     }
 
     private static void MatchesInRound(League l, int r)

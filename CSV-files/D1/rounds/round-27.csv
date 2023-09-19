@@ -1,6 +1,6 @@
-HIL;SJF;0-1;Other data;
-HBK;NBK;3-0;Other data;
-HOB;FCH;2-0;Other data;
-FCF;ACH;0-0;Other data;
-AaB;B.93;4-1;Other data;
-VEN;KIF;0-0;Other data;
+FCF;HIL;1-1;Other data;
+B.93;SJF;1-0;Other data;
+NBK;AaB;0-0;Other data;
+VEN;KIF;1-0;Other data;
+HBK;HOB;0-0;Other data;
+ACH;FCH;1-1;Other data;

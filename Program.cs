@@ -9,14 +9,56 @@ class Program
     {
         Dbu DBU = new();
         Setup.LoadData(DBU);
-        foreach (League league in DBU.Leagues)
+        League[] leagues = DBU.Leagues.ToArray();
+
+        int league = 2; // 0:D1, 1:D2, 2:SL
+        DataHandler.JustPlayingAround(leagues[league]);
+
+
+        /* bool menu = true;
+
+        while (menu)
         {
-            //if (league.Name == "2. Division")
-            if (league.Name == "NordicBet Liga")
-            //if (league.Name == "3F Superliga")
+            Console.Clear();
+            Console.WriteLine("-- Football standings App --");
+            Console.WriteLine("1. " + leagues[0].Name);
+            Console.WriteLine("2. " + leagues[1].Name);
+            Console.WriteLine("3. " + leagues[2].Name);
+            Console.WriteLine("0. Exit");
+
+            Console.Write("Please enter your choice (1, 2, 3, or 0 to exit): ");
+            string? userInput = Console.ReadLine();
+
+            switch (userInput)
             {
-                DataHandler.JustPlayingAround(league);
+                case "1":
+                    DataHandler.JustPlayingAround(leagues[0]);
+                    break;
+
+                case "2":
+                    DataHandler.JustPlayingAround(leagues[1]);
+                    break;
+
+                case "3":
+                    DataHandler.JustPlayingAround(leagues[2]);
+                    break;
+
+                case "0":
+                    menu = false;
+                    Console.WriteLine("Exiting the program. Press any key to continue...");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid input. Please enter 1, 2, 3, or 0 to exit. Press any key to continue...");
+                    Console.ReadKey();
+                    break;
             }
-        }
+
+            /* if (menu)
+            {
+                Console.WriteLine("Press any key to return to the menu...");
+                Console.ReadKey();
+            }
+        } */
     }
 }
