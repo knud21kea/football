@@ -2,7 +2,7 @@ static class Setup
 {
 
     public static League currentLeague = new("", "", 0, 0, 0, 0, 0);
-    public static void LoadData(Dbu dbu)
+    public static void LoadData(Dbu dbu, bool dataRefresh)
     {
         string rootFolder = @".\CSV-files";
         try
@@ -55,13 +55,23 @@ static class Setup
                         }
                     }
 
-                    //RoundGenerator.UpdateData22(currentLeague); // Now have 22 on file
+                    if (dataRefresh)
+                    {
+                        RoundGenerator.UpdateData22(currentLeague); // Now have 22 on file
+                    }
+
                     // need to import them here
                     RoundsAndMatches(subfolder, 0);
+
+                    if (dataRefresh)
+                    {
+                        RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
+                    }
+
                     football.DataHandler.PredictStandingsAfter22(currentLeague);
                     Array.Copy(currentLeague.Teams, 0, currentLeague.PromotionTeams, 0, 6);
                     Array.Copy(currentLeague.Teams, 6, currentLeague.RelegationTeams, 0, 6);
-                    //RoundGenerator.UpdateData32(currentLeague); // now we have the other 10 on file
+                    
                     // need to import them (and not the first 22 again)
                     RoundsAndMatches(subfolder, 22);
                 }
