@@ -123,7 +123,7 @@ public static class DataHandler
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 12; i++)
         {
-            OutputTableRow(l.Teams, i, 0, tableFormat);
+            OutputTableRow(l, l.Teams, i, 0, tableFormat);
         }
     }
 
@@ -138,33 +138,34 @@ public static class DataHandler
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 6; i++)
         {
-            OutputTableRow(l.PromotionTeams, i, 0, tableFormat);
+            OutputTableRow(l, l.PromotionTeams, i, 0, tableFormat);
         }
         Console.WriteLine("\n\x1B[31mStandings for league: " + l.Name + " Relegation Group after round: " + r + "\x1B[0m");
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 6; i++)
         {
-            OutputTableRow(l.RelegationTeams, i, 6, tableFormat);
+            OutputTableRow(l, l.RelegationTeams, i, 6, tableFormat);
         }
     }
 
-    private static void OutputTableRow(Team[] teams, int i, int offset, string format)
+    private static void OutputTableRow(League l,Team[] teams, int i, int offset, string format)
     {
         Team t = teams[i];
-        string position = (i + offset + 1).ToString(); ;
+        string position = (i + offset + 1).ToString();
+        string pos = position; // for SL qualification colouring
         if (i > 1)
         {
             Team pt = teams[i - 1];
             if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference) && (t.GoalsFor == pt.GoalsFor))
             {
-                position = "-";
+                position = " -";
             }
         }
         Console.BackgroundColor = ConsoleColor.DarkGray;
         Console.Write(
         String.Format(format,
-            position,
+            ColourPosition(l, position, pos),
             "(" + t.Special + ")",
             t.Name + " (" + t.Abbr + ")",
             t.GamesPlayed,
@@ -189,6 +190,21 @@ public static class DataHandler
             s[i] = AddColours(streak.Substring(i, 1));
         }
         return s[0] + s[1] + s[2] + s[3] + s[4] + " \x1B[100m";
+    }
+
+    private static string ColourPosition(League l, string pos, string p)
+    {
+        if (p == "12" && l.RelegationSlots > 0 || p == "11" && l.RelegationSlots > 1 || p == "10" && l.RelegationSlots > 2)
+        pos = "\x1B[101m " + pos + "\x1B[100m";
+        else if (p == "1" && l.PromotionSlots > 0 || p == "2" && l.PromotionSlots > 1 || p == "3" && l.PromotionSlots > 2)
+        pos = "\x1B[42m  " + pos + "\x1B[100m";
+        else if (p == "1" && l.ChampionsLeague > 0)
+        pos = "\x1B[44m  " + pos + "\x1B[100m";
+        else if (p == "2" && l.EuropaLeague > 0)
+        pos = "\x1B[106m  " + pos + "\x1B[100m";
+        else if (p == "3" && l.EuropaLeague > 0)
+        pos = "\x1B[105m  " + pos + "\x1B[100m";
+        return pos;
     }
 
     private static string AddColours(string s)

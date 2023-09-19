@@ -11,7 +11,7 @@ class Program
         Setup.LoadData(DBU, false); // set false to skip loading new match data
         League[] leagues = DBU.Leagues.ToArray();
 
-        int league = 0; // 0:D1, 1:D2, 2:SL
+        int league = 2; // 0:D1, 1:D2, 2:D3, 3:SL
         int requiredRounds = 32;
         DataHandler.JustPlayingAround(leagues[league], requiredRounds);
     }
