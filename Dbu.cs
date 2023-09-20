@@ -1,10 +1,10 @@
 using System.ComponentModel;
 
-class Dbu
+class Organisation
 {
     public List<League> Leagues { get; set; }
 
-    public Dbu()
+    public Organisation()
     {
         Leagues = new List<League>();
     }

@@ -1,0 +1,24 @@
+"filename", "language", "C#", "XML", "CSV", "Markdown", "comment", "blank", "total"
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D1\setup.csv", "CSV", 0, 0, 1, 0, 0, 0, 1
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D1\teams.csv", "CSV", 0, 0, 12, 0, 0, 1, 13
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D2\setup.csv", "CSV", 0, 0, 1, 0, 0, 0, 1
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D2\teams.csv", "CSV", 0, 0, 12, 0, 0, 0, 12
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D3\setup.csv", "CSV", 0, 0, 1, 0, 0, 0, 1
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\D3\teams.csv", "CSV", 0, 0, 12, 0, 0, 0, 12
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\SL\setup.csv", "CSV", 0, 0, 1, 0, 0, 0, 1
+"c:\KEA\VSC_projects\cs projects\football\CSV-files\SL\teams.csv", "CSV", 0, 0, 12, 0, 0, 0, 12
+"c:\KEA\VSC_projects\cs projects\football\DataHandler.cs", "C#", 251, 0, 0, 0, 3, 23, 277
+"c:\KEA\VSC_projects\cs projects\football\Dbu.cs", "C#", 13, 0, 0, 0, 0, 3, 16
+"c:\KEA\VSC_projects\cs projects\football\FileHandler.cs", "C#", 27, 0, 0, 0, 0, 0, 27
+"c:\KEA\VSC_projects\cs projects\football\League.cs", "C#", 54, 0, 0, 0, 0, 5, 59
+"c:\KEA\VSC_projects\cs projects\football\Match.cs", "C#", 14, 0, 0, 0, 0, 2, 16
+"c:\KEA\VSC_projects\cs projects\football\Program.cs", "C#", 16, 0, 0, 0, 0, 2, 18
+"c:\KEA\VSC_projects\cs projects\football\Round.cs", "C#", 14, 0, 0, 0, 0, 3, 17
+"c:\KEA\VSC_projects\cs projects\football\RoundGenerator.cs", "C#", 121, 0, 0, 0, 6, 8, 135
+"c:\KEA\VSC_projects\cs projects\football\Setup.cs", "C#", 161, 0, 0, 0, 6, 13, 180
+"c:\KEA\VSC_projects\cs projects\football\TableData.cs", "C#", 3, 0, 0, 0, 0, 1, 4
+"c:\KEA\VSC_projects\cs projects\football\Team.cs", "C#", 34, 0, 0, 0, 0, 2, 36
+"c:\KEA\VSC_projects\cs projects\football\Unused.cs", "C#", 0, 0, 0, 0, 48, 3, 51
+"c:\KEA\VSC_projects\cs projects\football\documents\README.md", "Markdown", 0, 0, 0, 3, 0, 2, 5
+"c:\KEA\VSC_projects\cs projects\football\football.csproj", "XML", 0, 8, 0, 0, 0, 3, 11
+"Total", "-", 708, 8, 52, 3, 63, 71, 905

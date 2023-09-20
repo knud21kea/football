@@ -2,7 +2,7 @@ static class Setup
 {
 
     public static League currentLeague = new("", "", 0, 0, 0, 0, 0);
-    public static void LoadData(Dbu dbu, bool dataRefresh)
+    public static void LoadData(Organisation dbu, bool dataRefresh)
     {
         string rootFolder = @".\CSV-files";
         try
