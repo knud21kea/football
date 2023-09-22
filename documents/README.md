@@ -27,8 +27,8 @@ Setup class creates, saves and imports all data in correct format.
 - find all setup.csv in any subfolder of CSV-files
 - for each setup create League and add to Organisation
 - for each found setup find teams.csv in same folder
-- for each teams create Team and add to League. Cannot add more than 12
-- create 32 Rounds and add to League
+- for each line in teams create Team and add to League. Cannot add more than 12
+- create 32 Round and add to League
 - for each Round generate puesdo random match data for 12 teams fullfilling requirements for schedule organisation
 - from this data create 6 Match and add to Round (uses RoundGenerator)
 - save each Round as .csv and import
@@ -38,6 +38,8 @@ DataHandler class processes and outputs data.
 - some data is coloured to show potential promotion/relegation and form for last 5 matches
 
 ---------------------------------------------------------------------------------------------------
+
+Setup:
 
 A call to the static class Setup's LoadData() then initialises all data by;
 - looping over all subfolders in /CSV-files and processing any setup.csv files found.
@@ -58,10 +60,12 @@ All data is now created, saved and imported.
 
 -----------------------------------------------------------------------------------------------------------------
 
+DataHandler:
+
 The user then configures the output by:
-selecting one of 4 leagues to display by setting parameter leagueId
-selecting how many rounds to process by setting parameter required rounds
-selecting whether to show a list of all matches in this league by setting parameter showMatches
+- selecting one of 4 leagues to display by setting parameter leagueId
+- selecting how many rounds to process by setting parameter required rounds
+- selecting whether to show a list of all matches in this league by setting parameter showMatches
 There is CLI to do this but it doesn't really add anything and is depreciated (CliMenu)
 
 DataHandler.JustPlayingAround then processes and outputs the required rounds for the selected league.

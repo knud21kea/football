@@ -7,3 +7,12 @@ filename incorrect (eg round_100.csv): stops with unhelpful error message
 filename incorrect (eg round_1a.csv): stops with error message
 surplus filename (eg round-33.csv): continues without error
 incorrect filename extension (eg round-1.zzz): continues without error
+
+Its easy to break the app if the two config files are malformed, but I think we can expect the data there to be correct.
+
+The design philosophy is to minimize errors by ensuring good data, rather than by including endless data error checks which would make the project unmanageably large for the development time available.
+
+Team data:
+
+More than 12 teams: continues with only first 12
+Less than 12 teams: stops with unhandled exception
