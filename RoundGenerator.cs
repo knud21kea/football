@@ -41,8 +41,6 @@ static class RoundGenerator
         // after 22 rounds we need to generate 10 more rounds
         // here the top 6 teams play each other home and away and similarly the bottom 6
         // start with an ordered list and use a modified match generator
-        // to test we assume that the first 6 remain in the top half
-        // in production we have to find the standings after 22 rounds and sort
         string LN = league.Id;
         string[] topAbbrs = new string[6];
         string[] bottomAbbrs = new string[6];
