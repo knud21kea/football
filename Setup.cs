@@ -47,7 +47,7 @@ static class Setup
                             string name = values[1];
                             string spec = values[2];
                             Team newTeam = new(abbr, name, spec);
-                            currentLeague.AddTeam(newTeam);
+                            currentLeague.AddTeam(newTeam); // only 12 teams added even if teamData has more lines
                         }
                         catch (Exception e)
                         {
@@ -172,7 +172,7 @@ static class Setup
         }
         catch (IOException e)
         {
-            Console.WriteLine("An error occurred while reading the setup file: " + e.Message);
+            Console.WriteLine("An error occurred while reading the teams file: " + e.Message);
         }
         return teamData;
     }

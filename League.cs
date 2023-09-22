@@ -52,8 +52,9 @@ public class League
         }
     }
 
-    public Team FindByAbbr(string abbr)
-    {
+    public Team this[string abbr] {
+        get {
         return Teams.FirstOrDefault(t => t.Abbr == abbr) ?? new Team("", "Unkown team", "");
+        }
     }
 }

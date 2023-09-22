@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using System.Xml;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace football;
 class Program
@@ -10,24 +11,38 @@ class Program
     {
         Organisation DBU = new();
 
-        Setup.LoadData(DBU, false); // set false to skip loading new match data        
+        // ---------------------------------------------------------------------------------------
+        // Program parameters
+
+        bool loadData = false; // set true to generate new match data
+        int leagueId = 3; // 0:D1, 1:D2, 2:D3, 3:SL
+        int requiredRounds = 32; // 1-32 gives number or round tables to display
+        bool showMatches = true; // set true to output the chosen leagues match results
+
+        // ----------------------------------------------------------------------------------------
+
+        Setup.LoadData(DBU, loadData);
         League[] leagues = DBU.Leagues.ToArray();
+        League selectedLeague = leagues[leagueId];
 
-        /* foreach (League l in DBU.Leagues)
+        if (showMatches)
         {
-            foreach (Round r in l.Rounds)
-            {
-                foreach (Match m in r.Matches)
-                {
-                    string homeName = l.FindByAbbr(m.HomeAbbr).Name;
-                    string awayName = l.FindByAbbr(m.AwayAbbr).Name;
-                    Console.WriteLine(l.Name + ": " + homeName + " v " + awayName + " > " + m.Score);
-                }
-            }
-        } */
+            ShowMatches(selectedLeague);
+        }
 
-        int league = 2; // 0:D1, 1:D2, 2:D3, 3:SL
-        int requiredRounds = 32; // Number of rounds that should have standings displayed
-        DataHandler.JustPlayingAround(leagues[league], requiredRounds);
+        DataHandler.JustPlayingAround(selectedLeague, requiredRounds);        
     }
+
+    private static void ShowMatches(League l)
+    {
+        foreach (Round r in l.Rounds)
+        {
+            foreach (Match m in r.Matches)
+            {
+                Console.WriteLine(l.Name + ": " + l[m.HomeAbbr].Name + " v " + l[m.AwayAbbr].Name + " > " + m.Score);
+            }
+        }
+    }
+    //Console.WriteLine(DBU["NordicBet Liga"].Id); // test of find league by name working       
+    //CliMenu.MainMenu(leagues); // simple front end not used
 }

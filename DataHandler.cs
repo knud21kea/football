@@ -54,8 +54,8 @@ public static class DataHandler
         {
             foreach (Match m in l.Rounds[r].Matches)
             {
-                Team homeTeam = l.FindByAbbr(m.HomeAbbr);
-                Team awayTeam = l.FindByAbbr(m.AwayAbbr);
+                Team homeTeam = l[m.HomeAbbr];
+                Team awayTeam = l[m.AwayAbbr];
                 string[] values = m.Score.Split('-');
                 int homeGoals = Int32.Parse(values[0]);
                 homeTeam.GoalsFor += homeGoals;
@@ -118,7 +118,7 @@ public static class DataHandler
         Array.Sort(l.Teams, new TeamComparer());
 
         Console.WriteLine("\n\x1B[36mStandings for league: " + l.Name + " after round: " + r + "\x1B[0m");
-        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
+        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-9}|";
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
         for (int i = 0; i < 12; i++)
@@ -132,7 +132,7 @@ public static class DataHandler
         Array.Sort(l.PromotionTeams, new TeamComparer());
         Array.Sort(l.RelegationTeams, new TeamComparer());
 
-        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-6}|";
+        string tableFormat = "|{0,3}|{1,4}|{2,-30}|{3,3}|{4,3}|{5,3}|{6,3}|{7,3}|{8,3}|{9,3}|{10,3}|{11,-9}|";
         Console.WriteLine("\n\x1B[32mStandings for league: " + l.Name + " Promotion Group after round: " + r + "\x1B[0m");
         Console.WriteLine(
         String.Format(tableFormat, "#", "S", "Team", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts", "Form"));
@@ -159,7 +159,7 @@ public static class DataHandler
             Team pt = teams[i - 1];
             if ((t.PointsGained == pt.PointsGained) && (t.GoalDifference == pt.GoalDifference) && (t.GoalsFor == pt.GoalsFor))
             {
-                position = " -";
+                position = (i < 10) ? "-" : " -";
             }
         }
         Console.BackgroundColor = ConsoleColor.DarkGray;
@@ -189,7 +189,7 @@ public static class DataHandler
         {
             s[i] = AddColours(streak.Substring(i, 1));
         }
-        return s[0] + s[1] + s[2] + s[3] + s[4] + " \x1B[100m";
+        return s[0] + "\x1B[100m " + s[1] + "\x1B[100m " + s[2] + "\x1B[100m " + s[3] + "\x1B[100m " + s[4] + "\x1B[100m";
     }
 
     private static string ColourPosition(League l, string pos, string p)
@@ -228,8 +228,8 @@ public static class DataHandler
         Console.WriteLine("\nRound: " + (r + 1));
         foreach (Match match in l.Rounds[r].Matches)
         {
-            string homeName = l.FindByAbbr(match.HomeAbbr).Name;
-            string awayName = l.FindByAbbr(match.AwayAbbr).Name;
+            string homeName = l[match.HomeAbbr].Name;
+            string awayName = l[match.AwayAbbr].Name;
             string outputString = l.Rounds[r].Id + ": " + matchId + ": " + homeName + " v " + awayName + " > " + match.Score;
             Console.WriteLine(outputString);
             matchId++;
