@@ -1,0 +1,22 @@
+Matches are created by custom algorithm that ensures that in the first 22 rounds
+all teams play each other once home and once away.
+In the last 10 rounds teams only play the other teams in their group home and away.
+
+So all matches in the system are approved.
+
+If the round files are manually edited afterwards, then it is broken.
+I don't know any strategy that would check that on import.
+
+There are 2 cases implemented
+
+---------------------------------------------------------------------------------------
+
+If a line from a round (a match) is removed, then the program continues without error,
+but the stats for that match are not updated. So 2 teams will miss one result.
+
+-----------------------------------------------------------------------------------------
+
+If an extra line is inserted into a round but doesn't have all of
+valid homeAbbr, valid awayAbbr, valid score - the line is skipped and no error occurs.
+
+------------------------------------------------------------------------------------------

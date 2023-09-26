@@ -1,0 +1,11 @@
+One line from a round file (a match) contains homeAbbr or awayAbbr not corresponding to a team in that league.
+
+Expected result: The match is not added to the league.
+
+Acheived result: The match is not added to the league.
+
+Test result: Passed
+
+-----------------------------------------------------------------------------------------------------------
+
+Note, the match generation algorithm only uses team from the provided teams.csv

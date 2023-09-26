@@ -1,0 +1,9 @@
+Matches are created by custom algorithm that ensures that in the first 22 rounds
+all teams play each other once home and once away.
+In the last 10 rounds teams only play the other teams in their group home and away.
+
+So there are generated no matches against the same team.
+
+If the round files are manually edited afterwards, then it is broken.
+This could be checked by checking homeAbbr != awayAbbr on import, or by validating
+each match on criteria 'has exactly 2 teams' but that is not implemented in this version.
