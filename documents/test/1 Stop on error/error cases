@@ -42,7 +42,7 @@ Filename incorrect (eg round_1a.csv)
 
 Expected result: Program stops
 
-Acheived result: Program stops but with plain message
+Acheived result: Program stops with plain message
 
 Test result: Passed
 

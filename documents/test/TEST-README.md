@@ -2,4 +2,4 @@
 
 - The design philosophy is to minimize errors by ensuring good data, rather than by including endless data error checks which would make the project unmanageably large for the development time available.
 
-Would like to have include some validations, but should have been considered earlier in the project
+- Would like to have include some validations, but should have been considered earlier in the project

@@ -14,9 +14,9 @@ class Program
         // ---------------------------------------------------------------------------------------
         // Program parameters
 
-        bool loadData = false; // set true to generate new match data
+        bool loadData = true; // set true to generate new match data
         int leagueId = 3; // 0:D1, 1:D2, 2:D3, 3:SL
-        int requiredRounds = 3; // 1-32 gives number or round tables to display
+        int requiredRounds = 32; // 1-32 gives number or round tables to display
         bool showMatches = false; // set true to output the chosen leagues match results
 
         // ----------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ class Program
             ShowMatches(selectedLeague);
         }
 
-        DataHandler.JustPlayingAround(selectedLeague, requiredRounds);        
+        DataHandler.JustPlayingAround(selectedLeague, requiredRounds);
     }
 
     private static void ShowMatches(League l)

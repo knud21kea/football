@@ -149,7 +149,7 @@ public static class DataHandler
         }
     }
 
-    private static void OutputTableRow(League l,Team[] teams, int i, int offset, string format)
+    private static void OutputTableRow(League l, Team[] teams, int i, int offset, string format)
     {
         Team t = teams[i];
         string position = (i + offset + 1).ToString();
@@ -195,15 +195,15 @@ public static class DataHandler
     private static string ColourPosition(League l, string pos, string p)
     {
         if (p == "12" && l.RelegationSlots > 0 || p == "11" && l.RelegationSlots > 1 || p == "10" && l.RelegationSlots > 2)
-        pos = "\x1B[101m " + pos + "\x1B[100m";
+            pos = "\x1B[101m " + pos + "\x1B[100m";
         else if (p == "1" && l.PromotionSlots > 0 || p == "2" && l.PromotionSlots > 1 || p == "3" && l.PromotionSlots > 2)
-        pos = "\x1B[42m  " + pos + "\x1B[100m";
+            pos = "\x1B[42m  " + pos + "\x1B[100m";
         else if (p == "1" && l.ChampionsLeague > 0)
-        pos = "\x1B[44m  " + pos + "\x1B[100m";
+            pos = "\x1B[44m  " + pos + "\x1B[100m";
         else if (p == "2" && l.EuropaLeague > 0)
-        pos = "\x1B[106m  " + pos + "\x1B[100m";
+            pos = "\x1B[106m  " + pos + "\x1B[100m";
         else if (p == "3" && l.EuropaLeague > 0)
-        pos = "\x1B[105m  " + pos + "\x1B[100m";
+            pos = "\x1B[105m  " + pos + "\x1B[100m";
         return pos;
     }
 

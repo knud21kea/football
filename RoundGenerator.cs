@@ -58,7 +58,7 @@ static class RoundGenerator
         }
     }
 
-    
+
     // This can fail if teams does not have 12 elements?
     public static string GenerateRoundMatches22(string[] teams, int round)
     {

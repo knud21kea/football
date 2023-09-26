@@ -142,7 +142,6 @@ static class Setup
                         Console.WriteLine("Encountered bad filename in: " + file);
                     }
                 }
-                Console.WriteLine(totalMatches);
             }
             catch (Exception e)
             {

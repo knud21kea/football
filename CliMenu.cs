@@ -2,10 +2,10 @@ namespace football;
 
 public static class CliMenu
 {
-    
+
     public static void MainMenu(League[] leagues)
     {
-    bool menu = true;
+        bool menu = true;
 
         while (menu)
         {
@@ -34,7 +34,7 @@ public static class CliMenu
                     DataHandler.JustPlayingAround(leagues[2], 5);
                     break;
 
-                    case "4":
+                case "4":
                     DataHandler.JustPlayingAround(leagues[3], 5);
                     break;
 
@@ -55,5 +55,5 @@ public static class CliMenu
                 Console.ReadKey();
             }
         }
-        }
+    }
 }
