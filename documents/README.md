@@ -1,6 +1,6 @@
-Assignment: Football standings.
+C# Assignment: Football standings.
 
-KEA mandatory C# project for 4. term Computer Science autumn 2023
+KEA mandatory project for 4. term Computer Science autumn 2023
 
 All content @author Graham Heaven
 
