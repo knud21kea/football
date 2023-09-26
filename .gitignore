@@ -6,7 +6,7 @@
 *.user
 *.sln.docstates
 rounds/
-.VSCodeCounter
+.VSCodeCounter/
 
 # Build results
 
