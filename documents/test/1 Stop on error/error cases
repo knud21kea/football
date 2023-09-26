@@ -1,6 +1,6 @@
 Round file missing (round-??.csv)
 
-Expepected result: Program stops
+Expected result: Program stops
 
 Acheived result: Program stops with plain message
 
@@ -10,7 +10,7 @@ Test result: Passed
 
 Filename incorrect (eg round_1.csv)
 
-Expepected result: Program stops
+Expected result: Program stops
 
 Acheived result: Program stops with plain message
 
@@ -20,7 +20,7 @@ Test result: Passed
 
 Filename incorrect (eg round_01.csv)
 
-Expepected result: Program continues without error
+Expected result: Program continues without error
 
 Acheived result: Program continues without error
 
@@ -28,9 +28,9 @@ Test result: Passed
 
 ----------------------------------------------------------------
 
-filename incorrect (eg round_100.csv)
+Filename incorrect (eg round_100.csv)
 
-Expepected result: Program stops
+Expected result: Program stops
 
 Acheived result: Program stops but with unhelpful message
 
@@ -38,9 +38,9 @@ Test result: Passed (ish)
 
 ----------------------------------------------------------------
 
-filename incorrect (eg round_1a.csv)
+Filename incorrect (eg round_1a.csv)
 
-Expepected result: Program stops
+Expected result: Program stops
 
 Acheived result: Program stops but with plain message
 
@@ -50,7 +50,7 @@ Test result: Passed
 
 Surplus filename (eg round-33.csv)
 
-Expepected result: Program continues
+Expected result: Program continues
 
 Acheived result: Program continues, the file is ignored
 
@@ -60,7 +60,7 @@ Test result: Passed
 
 More than 12 teams
 
-Expepected result: Program continues with only first 12
+Expected result: Program continues with only first 12
 
 Acheived result: Program continues with only first 12
 
@@ -70,7 +70,7 @@ Test result: Passed
 
 Less than 12 teams
 
-Expepected result: Program stops
+Expected result: Program stops
 
 Acheived result: Program stops with unhandled exception
 
