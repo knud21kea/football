@@ -91,6 +91,7 @@ static class Setup
             try
             {
                 string[] files = Directory.GetFiles(subSubfolder);
+                int totalMatches = 0;
                 foreach (string file in files)
                 {
                     using StreamReader reader = new(file);
@@ -109,17 +110,28 @@ static class Setup
                                 try
                                 {
                                     string[] values = line.Split(';');
+                                    int item = values.Length;
                                     string home = values[0];
-                                    string away = values[1];
-                                    string score = values[2];
-                                    string comment = values[3];
-                                    Match newMatch = new(home, away, score, comment);
-                                    currentRound.AddMatch(newMatch);
-                                    lineNumber++;
+                                    if (item > 0 && currentLeague[home].Abbr != "")
+                                    {
+                                        string away = values[1];
+                                        if (item > 1 && currentLeague[away].Abbr != "")
+                                        {
+                                            string score = values[2];
+                                            if (item > 2 && score != "")
+                                            {
+                                                string comment = values[3];
+                                                Match newMatch = new(home, away, score, comment);
+                                                currentRound.AddMatch(newMatch);
+                                                lineNumber++;
+                                                totalMatches++;
+                                            }
+                                        }
+                                    }
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.WriteLine("An error occurred while reading a round file." + e.Message);
+                                    Console.WriteLine("An error occurred while reading a round file." + file + e.Message);
                                 }
                             }
                             currentLeague.AddRound(currentRound);
@@ -130,6 +142,7 @@ static class Setup
                         Console.WriteLine("Encountered bad filename in: " + file);
                     }
                 }
+                Console.WriteLine(totalMatches);
             }
             catch (Exception e)
             {

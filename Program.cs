@@ -16,8 +16,8 @@ class Program
 
         bool loadData = false; // set true to generate new match data
         int leagueId = 3; // 0:D1, 1:D2, 2:D3, 3:SL
-        int requiredRounds = 32; // 1-32 gives number or round tables to display
-        bool showMatches = true; // set true to output the chosen leagues match results
+        int requiredRounds = 3; // 1-32 gives number or round tables to display
+        bool showMatches = false; // set true to output the chosen leagues match results
 
         // ----------------------------------------------------------------------------------------
 

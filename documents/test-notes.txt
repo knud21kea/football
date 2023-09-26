@@ -7,6 +7,8 @@ filename incorrect (eg round_100.csv): stops with unhelpful error message
 filename incorrect (eg round_1a.csv): stops with error message
 surplus filename (eg round-33.csv): continues without error
 incorrect filename extension (eg round-1.zzz): continues without error
+extra line without valid HomeAbbr and AwayAbbr and Score: continues without error
+missing line: continues but a match result is missing
 
 Its easy to break the app if the two config files are malformed, but I think we can expect the data there to be correct.
 
@@ -16,3 +18,4 @@ Team data:
 
 More than 12 teams: continues with only first 12
 Less than 12 teams: stops with unhandled exception
+

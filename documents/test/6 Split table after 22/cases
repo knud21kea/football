@@ -1,0 +1,17 @@
+User selects required rouns < 23
+
+Expected result : All tables are outputed with a single group.
+
+Acheived result: All tables are outputed with a single group.
+
+Test result: Passed
+
+----------------------------------------------------------------
+
+User selects required rouns > 22
+
+Expected result : All tables after round 22 are ouputed in 2 groups.
+
+Acheived result: All tables after round 22 are ouputed in 2 groups.
+
+Test result: Passed
